@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client/core"
-import { getMainDefinition } from "@apollo/client/utilities"
 import { onError } from "@apollo/client/link/error"
 import { logErrorMessages } from "@vue/apollo-util"
 
