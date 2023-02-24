@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`/character/${id}`" class="card">
-    <img :src="image"/>
+    <img :src="image" :alt="`${name} - image`"/>
     <div class="character-content">
       <div class="name-text">{{ name }}</div>
       <div v-if="status">Life Status: {{ status }}</div>
@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+// Props
 defineProps({
   id: {
     type: String,

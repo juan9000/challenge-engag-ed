@@ -3,7 +3,7 @@
     <input
       v-model="inputText"
       type="text"
-      placeholder="Search character by name"
+      placeholder="Search by name"
       @input="inputTextInterval()"
     />
   </div>
@@ -41,5 +41,12 @@ input {
   margin-bottom: 2rem;
   padding: 0.5rem 1rem;
   width: -webkit-fill-available;
+}
+
+@media screen and (max-width: 480px) {
+  input {
+    font-size: 1.5rem;
+    padding: 0.25rem 0.75rem
+  }
 }
 </style>

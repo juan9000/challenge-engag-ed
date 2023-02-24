@@ -1,9 +1,9 @@
 <template>
   <div class="pagination-container">
 
-    <div v-if="prev" class="prev-button-container" @click="changePage(prev)">
+    <div v-if="prev" class="prev-arrow-container arrow-container-size" @click="changePage(prev)">
       <RightArrow
-        class="prev-button"
+        class="prev-arrow"
       >
         {{ prev }}
       </RightArrow>
@@ -14,18 +14,18 @@
         v-if="pagesToRender.length && pagesToRender[0] > 1"
       >
         <div
-          class="page-button"
+          class="page-button font-size"
           @click="changePage(1)"
         >
           1
         </div>
-        <p class="page-separator">...</p>
+        <p class="page-separator font-size">...</p>
       </template>
 
       <div
         v-for="(page, index) in pagesToRender"
         :key="`${page}-${index}`"
-        :class="[{'active': page === currentPage}, 'page-button']"
+        :class="[{'active': page === currentPage}, 'page-button font-size']"
         @click="changePage(page)"
       >
         {{ page }}
@@ -34,9 +34,9 @@
       <template
         v-if="pagesToRender.length && pagesToRender[pagesToRender.length - 1] < pages"
       >
-        <p class="page-separator">...</p>
+        <p class="page-separator font-size">...</p>
         <div
-          class="page-button"
+          class="page-button font-size"
           @click="changePage(pages)"
         >
           {{ pages }}
@@ -44,9 +44,9 @@
       </template>
     </div>
 
-    <div v-if="next" class="next-button-container" @click="changePage(next)">
+    <div v-if="next" class="next-arrow-container arrow-container-size" @click="changePage(next)">
       <RightArrow
-        class="next-button"
+        class="next-arrow"
       >
         {{ next }}
       </RightArrow>
@@ -114,64 +114,133 @@ const changePage = (page: number): void => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem 0;
+  margin-top: 2rem;
 }
+
 .page-selector-container{
   display: flex;
   justify-content: center;
 }
+
+.font-size {
+  font-size: 3rem
+}
+
 .page-button {
   cursor: pointer;
   text-align: center;
   border: 1px solid white;
   border-radius: 6px;
-  font-size: 3rem;
   min-width: 48px;
   margin: 0 0.5rem;
   padding: 0.25rem;
+}
+.page-button:hover {
+  background-color: rgb(25, 27, 41);
 }
 .page-button.active {
   cursor: default;
   border-color: rgb(21 124 0);
   color: rgb(21 124 0);
 }
+.page-button.active:hover {
+  background-color: unset;
+}
+
 .page-separator {
   margin: 0 0.5rem;
-  font-size: 3rem;
 }
-.prev-button-container {
+
+.arrow-container-size {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.prev-arrow-container {
   display: flex;
   cursor: pointer;
   text-align: center;
   border: 1px solid white;
   border-radius: 6px;
-  min-width: 48px;
-  min-height: 48px;
   margin-right: 1rem;
   padding: 0.25rem;
 }
-.prev-button {
+.prev-arrow-container:hover {
+  background-color: rgb(25, 27, 41);;
+}
+.prev-arrow {
   width: 30px;
-  height: 30px;
-  font-size: 3rem;
   margin: auto;
   transform: rotate(180deg);
 }
-.next-button-container {
+
+.next-arrow-container {
   display: flex;
   cursor: pointer;
   text-align: center;
   border: 1px solid white;
   border-radius: 6px;
-  min-width: 48px;
-  min-height: 48px;
   margin-left: 1rem;
   padding: 0.25rem;
 }
-.next-button {
+.next-arrow-container:hover {
+  background-color: rgb(25, 27, 41);;
+}
+.next-arrow {
   width: 30px;
-  height: 30px;
-  font-size: 3rem;
   margin: auto;
+}
+
+@media screen and (max-width: 900px) { 
+  .font-size {
+    font-size: 1.5rem;
+  }
+  .page-button {
+    min-width: 24px;
+    margin: 0 0.25rem;
+  }
+
+  .page-separator {
+    margin: 0;
+  }
+
+  .arrow-container-size{
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  .prev-arrow-container {
+    margin-right: 0.25rem;
+  }
+  .prev-arrow {
+    width: 16px;
+  }
+
+  .next-arrow-container {
+    margin-left: 0.25rem;
+  }
+  .next-arrow {
+    width: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .pagination-container {
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .page-selector-container {
+    flex-wrap: wrap;
+  }
+  .arrow-container-size {
+    margin-bottom: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 24px;
+  }
+  .page-button {
+    margin-bottom: 0.5rem;
+  }
+
 }
 </style>
