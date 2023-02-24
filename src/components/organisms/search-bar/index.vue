@@ -1,9 +1,9 @@
 <template>
   <div class="search-bar-container">
-    search bar
     <input
       v-model="inputText"
       type="text"
+      placeholder="Search character by name"
       @input="inputTextInterval()"
     />
   </div>
@@ -31,4 +31,13 @@ const inputTextInterval = (): void => {
 </script>
 
 <style scoped>
+input {
+  color: #cacaca;
+  background: rgb(25, 27, 41);
+  border-radius: 10px;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  width: -webkit-fill-available;
+}
 </style>

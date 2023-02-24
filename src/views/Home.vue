@@ -4,27 +4,31 @@
     <div v-if="loading">
       Loading
     </div>
-    <template v-if="characters.length">
-      <router-link :to="`/character/${characters[0].id}`" >
-        {{ characters[0] }}
-      </router-link>
+
+    <template v-else-if="characters.length">
+      <CharactersList :characters="characters" />
+      <div v-if="infos && infos.pages > 1">
+        {{ infos }}
+      </div>
+      <div @click="changePage()">
+        {{ page }}
+      </div>
     </template>
-    <div v-if="infos && infos.pages > 1">
-      {{ infos }}
-    </div>
-    <div @click="changePage()">
-      {{ page }}
+
+    <div v-else class="not-found">
+      Character not found ;-;
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
-import { computed, ref, type Ref } from 'vue'
 import type { DocumentNode } from 'graphql';
+import { computed, ref, type Ref } from 'vue'
+import { useQuery } from '@vue/apollo-composable';
+import type { CharactersResult, FilterCharacter } from '@/utils/types/generic';
 import SearchBar from '@/components/organisms/search-bar/index.vue'
-import type { FilterCharacter } from '@/utils/types/generic';
+import CharactersList from '@/components/organisms/characters-list/index.vue'
 
 // Query
 const charactersQuery: DocumentNode = gql`
@@ -34,9 +38,9 @@ const charactersQuery: DocumentNode = gql`
         id,
         name,
         status,
-        species,
-        type,
-        gender,
+        location {
+          name
+        },
         image
       }
       info {
@@ -53,7 +57,7 @@ const page: Ref<number> = ref(1)
 const filter: Ref<FilterCharacter> = ref({ name: '' })
 
 // Computed
-const characters = computed((): any => { 
+const characters = computed((): Array<CharactersResult> => { 
   return result.value?.characters?.results || []
 })
 const infos = computed((): any => {
@@ -78,3 +82,7 @@ const { result, loading } = useQuery(charactersQuery, {
   }
 )
 </script>
+
+<style scoped>
+.not-found {}
+</style>

@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <div class="page-container">
+    <router-view />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -8,3 +10,9 @@ import { apolloClient } from './apollo-client';
 
 provideApolloClient(apolloClient)
 </script>
+
+<style scoped>
+.page-container {
+  margin: 0 2rem;
+}
+</style>
