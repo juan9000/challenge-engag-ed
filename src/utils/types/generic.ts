@@ -9,10 +9,22 @@ export type CharacterLocation = {
   dimension?: string
 }
 
-export type CharactersResult = {
+export type Episode = {
+  id?: string
+  name?: string
+  air_date?: string
+  episode?: string
+}
+
+export type Character = {
   id?: string
   name?: string
   status?: string
-  location?: Location
+  species?: string
+  type?: string
+  gender?: string
+  origin?: CharacterLocation
+  location?: CharacterLocation
   image?: string
+  episode?: Array<Episode>
 }

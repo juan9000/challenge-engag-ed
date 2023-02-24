@@ -1,6 +1,6 @@
 <template>
-  <SearchBar @changeFilter="changeFilter"/>
   <div>
+    <SearchBar @changeFilter="changeFilter"/>
     <div v-if="loading" class="loading-container">
       <LoadingSpin class="loading-spin"></LoadingSpin>
     </div>
@@ -10,9 +10,7 @@
       <Pagination :current-page="page" v-bind="infos"  @changePage="changePage"/>
     </template>
 
-    <div v-else class="not-found-text ">
-      Character not found ;-;
-    </div>
+    <NotFound v-else />
   </div>
 </template>
 
@@ -23,7 +21,9 @@ import { useRoute } from 'vue-router';
 import type { DocumentNode } from 'graphql';
 import { useQuery } from '@vue/apollo-composable';
 import { computed, ref, watch, type Ref } from 'vue'
-import type { CharactersResult, FilterCharacter } from '@/utils/types/generic';
+import type { Character, FilterCharacter } from '@/utils/types/generic';
+
+import NotFound from '@/components/atoms/not-found/index.vue'
 import SearchBar from '@/components/organisms/search-bar/index.vue'
 import LoadingSpin from '@/components/atoms/icons/loading-spin.vue'
 import Pagination from '@/components/organisms/pagination/index.vue'
@@ -57,7 +57,7 @@ const page: Ref<number> = ref(route.query?.page ? +route.query.page : 1)
 const filter: Ref<FilterCharacter> = ref({ name: route.query?.name ?  route.query.name.toLocaleString() : '' })
 
 // Computed
-const characters = computed((): Array<CharactersResult> => { 
+const characters = computed((): Array<Character> => { 
   return result.value?.characters?.results || []
 })
 const infos = computed((): any => {
@@ -118,10 +118,5 @@ watch(
 }
 .loading-spin {
   width: 20rem
-}
-.not-found-text {
-  text-align: center;
-  font-size: 4rem;
-  margin-top: 10rem;
 }
 </style>
