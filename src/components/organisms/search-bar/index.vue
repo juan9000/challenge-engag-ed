@@ -11,13 +11,15 @@
 
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 // Emits
 const emit = defineEmits<{ (e: 'changeFilter', value: string): void }>()
 
 // Variables
+const route = useRoute()
 let interval: number | undefined = undefined
-const inputText: Ref<string> = ref('')
+const inputText: Ref<string> = ref(route.query?.name ?  route.query.name.toLocaleString() : '')
 
 // Methods
 const inputTextInterval = (): void => {

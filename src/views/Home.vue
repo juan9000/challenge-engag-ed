@@ -1,21 +1,16 @@
 <template>
   <SearchBar @changeFilter="changeFilter"/>
   <div>
-    <div v-if="loading">
-      Loading
+    <div v-if="loading" class="loading-container">
+      <LoadingSpin class="loading-spin"></LoadingSpin>
     </div>
 
     <template v-else-if="characters.length">
       <CharactersList :characters="characters" />
-      <div v-if="infos && infos.pages > 1">
-        {{ infos }}
-      </div>
-      <div @click="changePage()">
-        {{ page }}
-      </div>
+      <Pagination :current-page="page" v-bind="infos"  @changePage="changePage"/>
     </template>
 
-    <div v-else class="not-found">
+    <div v-else class="not-found-text ">
       Character not found ;-;
     </div>
   </div>
@@ -30,6 +25,8 @@ import { useQuery } from '@vue/apollo-composable';
 import { computed, ref, watch, type Ref } from 'vue'
 import type { CharactersResult, FilterCharacter } from '@/utils/types/generic';
 import SearchBar from '@/components/organisms/search-bar/index.vue'
+import LoadingSpin from '@/components/atoms/icons/loading-spin.vue'
+import Pagination from '@/components/organisms/pagination/index.vue'
 import CharactersList from '@/components/organisms/characters-list/index.vue'
 
 // Query
@@ -73,8 +70,8 @@ const changeFilter = (input: string): void => {
     name: input
   }
 }
-const changePage = (): void => {
-  page.value++
+const changePage = (value: number): void => {
+  page.value = value
 }
 
 // Request Data
@@ -84,12 +81,16 @@ const { result, loading } = useQuery(charactersQuery, {
   }
 )
 
-// this.$router.replace({ query: { q1: "q1" } })
+// Watch
 watch(
   () => page.value,
   (newVal, oldVal) => {
     if (newVal && newVal !== oldVal) {
-      router.replace({ query: { page: newVal, name: filter.value.name}})
+      if (filter.value.name) {
+        router.replace({ query: { page: newVal, name: filter.value.name}})
+      } else {
+        router.replace({ query: { page: newVal }})
+      }
     } 
   }
 )
@@ -97,7 +98,12 @@ watch(
   () => filter.value,
   (newVal, oldVal) => {
     if (newVal && newVal !== oldVal) {
-      router.replace({ query: { page: page.value, name: newVal.name}})
+      page.value = 1
+      if (newVal.name) {
+        router.replace({ query: { page: page.value, name: newVal.name}})
+      } else {
+        router.replace({ query: { page: page.value }})
+      }
     }
   },
   {
@@ -107,4 +113,15 @@ watch(
 </script>
 
 <style scoped>
+.loading-container {
+  text-align: center;
+}
+.loading-spin {
+  width: 20rem
+}
+.not-found-text {
+  text-align: center;
+  font-size: 4rem;
+  margin-top: 10rem;
+}
 </style>
