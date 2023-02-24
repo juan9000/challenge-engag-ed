@@ -8,9 +8,7 @@ const httpLink = new HttpLink({
 })
 
 const errorLink = onError((error) => {
-	if (process.env.NODE_ENV !== "production") {
-		logErrorMessages(error)
-	}
+	logErrorMessages(error)
 })
 
 // Create the apollo client
