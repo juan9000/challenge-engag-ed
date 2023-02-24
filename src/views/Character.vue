@@ -1,3 +1,3 @@
 <template>
-  <div> character page </div>
+  <div> character page {{ $route.params }}</div>
 </template>

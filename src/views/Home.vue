@@ -23,9 +23,11 @@
 
 <script setup lang="ts">
 import gql from 'graphql-tag';
+import router from '@/router';
+import { useRoute } from 'vue-router';
 import type { DocumentNode } from 'graphql';
-import { computed, ref, type Ref } from 'vue'
 import { useQuery } from '@vue/apollo-composable';
+import { computed, ref, watch, type Ref } from 'vue'
 import type { CharactersResult, FilterCharacter } from '@/utils/types/generic';
 import SearchBar from '@/components/organisms/search-bar/index.vue'
 import CharactersList from '@/components/organisms/characters-list/index.vue'
@@ -53,8 +55,9 @@ const charactersQuery: DocumentNode = gql`
 `
 
 // Variables
-const page: Ref<number> = ref(1)
-const filter: Ref<FilterCharacter> = ref({ name: '' })
+const route = useRoute()
+const page: Ref<number> = ref(route.query?.page ? +route.query.page : 1)
+const filter: Ref<FilterCharacter> = ref({ name: route.query?.name ?  route.query.name.toLocaleString() : '' })
 
 // Computed
 const characters = computed((): Array<CharactersResult> => { 
@@ -66,7 +69,6 @@ const infos = computed((): any => {
 
 // Methods
 const changeFilter = (input: string): void => {
-  console.log(input)
   filter.value = {
     name: input
   }
@@ -81,8 +83,28 @@ const { result, loading } = useQuery(charactersQuery, {
     filter
   }
 )
+
+// this.$router.replace({ query: { q1: "q1" } })
+watch(
+  () => page.value,
+  (newVal, oldVal) => {
+    if (newVal && newVal !== oldVal) {
+      router.replace({ query: { page: newVal, name: filter.value.name}})
+    } 
+  }
+)
+watch(
+  () => filter.value,
+  (newVal, oldVal) => {
+    if (newVal && newVal !== oldVal) {
+      router.replace({ query: { page: page.value, name: newVal.name}})
+    }
+  },
+  {
+    deep: true
+  }
+)
 </script>
 
 <style scoped>
-.not-found {}
 </style>
