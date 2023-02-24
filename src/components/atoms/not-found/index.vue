@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+// Props
 defineProps({
   text: {
     type: String,

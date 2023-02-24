@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
 import RightArrow from '@/components/atoms/icons/right-arrow.vue'
 
 // Props
@@ -241,6 +242,5 @@ const changePage = (page: number): void => {
   .page-button {
     margin-bottom: 0.5rem;
   }
-
 }
 </style>

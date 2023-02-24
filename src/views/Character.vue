@@ -1,11 +1,6 @@
 <template>
-  <div v-if="loading" class="loading-container">
-    <LoadingSpin class="loading-spin"></LoadingSpin>
-  </div>
-  <div v-else-if="character">
-    <div> character page {{ $route.params }}</div>
-    <div> {{ character }} </div>
-  </div>
+  <Loading v-if="loading" />
+  <CharacterInfos v-else-if="character" v-bind="character" />
   <NotFound v-else />
 </template>
 
@@ -18,13 +13,13 @@ import { useQuery } from '@vue/apollo-composable';
 import type { Character } from '@/utils/types/generic';
 
 import NotFound from '@/components/atoms/not-found/index.vue'
-import LoadingSpin from '@/components/atoms/icons/loading-spin.vue'
+import Loading from '@/components/molecules/loading/index.vue'
+import CharacterInfos from '@/components/organisms/charater/index.vue'
 
 // Query
 const characterQuery: DocumentNode = gql`
   query ($id: ID!) {
     character(id: $id) {
-      id,
       name,
       status,
       species,
@@ -65,14 +60,4 @@ const { result, loading } = useQuery(characterQuery, {
     id,
   }
 )
-
 </script>
-
-<style scoped>
-.loading-container {
-  text-align: center;
-}
-.loading-spin {
-  width: 20rem
-}
-</style>

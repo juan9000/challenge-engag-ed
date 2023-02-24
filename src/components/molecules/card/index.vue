@@ -41,13 +41,16 @@ defineProps({
   border-radius: 8px;
   cursor: pointer;
 }
+
 img {
   width: -webkit-fill-available;
   border-radius: 8px 8px 0 0;
 }
+
 .character-content{
   padding: 0.5rem;
 }
+
 .name-text {
   font-size: 1.25rem;
   margin-bottom: 0.75rem;

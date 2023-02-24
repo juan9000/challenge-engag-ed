@@ -5,13 +5,14 @@
 </template>
 
 <script setup lang="ts">
-import type { CharactersResult } from '@/utils/types/generic';
+import type { Character } from '@/utils/types/generic';
+
 import CharacterCard from '@/components/molecules/card/index.vue'
 
 // Props
 defineProps({
   characters: {
-    type: Array<CharactersResult>,
+    type: Array<Character>,
     required: true,
   },
 })

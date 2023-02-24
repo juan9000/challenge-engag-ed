@@ -1,10 +1,8 @@
 <template>
   <div>
     <SearchBar @changeFilter="changeFilter"/>
-    <div v-if="loading" class="loading-container">
-      <LoadingSpin class="loading-spin"></LoadingSpin>
-    </div>
-
+    <Loading v-if="loading" />
+    
     <template v-else-if="characters.length">
       <CharactersList :characters="characters" />
       <Pagination :current-page="page" v-bind="infos"  @changePage="changePage"/>
@@ -25,7 +23,7 @@ import type { Character, FilterCharacter } from '@/utils/types/generic';
 
 import NotFound from '@/components/atoms/not-found/index.vue'
 import SearchBar from '@/components/organisms/search-bar/index.vue'
-import LoadingSpin from '@/components/atoms/icons/loading-spin.vue'
+import Loading from '@/components/molecules/loading/index.vue'
 import Pagination from '@/components/organisms/pagination/index.vue'
 import CharactersList from '@/components/organisms/characters-list/index.vue'
 
@@ -111,12 +109,3 @@ watch(
   }
 )
 </script>
-
-<style scoped>
-.loading-container {
-  text-align: center;
-}
-.loading-spin {
-  width: 20rem
-}
-</style>
